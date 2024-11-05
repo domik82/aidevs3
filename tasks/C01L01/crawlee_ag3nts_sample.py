@@ -42,7 +42,7 @@ async def process_site(site):
     await crawler.run([site])
 
 
-async def return_extracted_data(page_adress):
+async def crawler_return_extracted_data(page_adress):
     await process_site(page_adress)
     extracted_question = None
     # After crawling is done, process the extracted question
@@ -55,7 +55,7 @@ async def return_extracted_data(page_adress):
 
 async def main():
     page_address = "https://xyz.ag3nts.org/"
-    question = await return_extracted_data(page_address)
+    question = await crawler_return_extracted_data(page_address)
     print(f"After processing {question}")
 
 

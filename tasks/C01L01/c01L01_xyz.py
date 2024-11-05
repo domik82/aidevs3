@@ -4,13 +4,13 @@ import sys
 
 import requests
 
-from tasks.C01L01.crawlee_ag3nts_sample import return_extracted_data
-from tasks.C01L01.local_llama_ask_question import execute_question
+from tasks.C01L01.crawlee_ag3nts_sample import crawler_return_extracted_data
+from tasks.C01L01.local_llama_ask_question import llm_execute_question
 
 
 async def main():
     page_adress = "https://xyz.ag3nts.org/"
-    question = await return_extracted_data(page_adress)
+    question = await crawler_return_extracted_data(page_adress)
 
     model = "llama3.2"  # You can change this to the specific Llama model you have
     user_question = (
@@ -18,15 +18,15 @@ async def main():
         f"The answer should be as short as possible and contain only one number"
         f"that answers the question. {question}"
     )
-    response = execute_question(model, user_question)
+    response = llm_execute_question(model, user_question)
     print(f"\nResponse: {response}")
 
     username = "tester"
     password = "574e112a"
 
-    form_values = {"username": username, "password": password, "answer": response}
+    form_login_values = {"username": username, "password": password, "answer": response}
     try:
-        result_raw = requests.post(page_adress, data=form_values)
+        result_raw = requests.post(page_adress, data=form_login_values)
     except Exception as error:
         print(f"Error sending the answer: {error}")
         sys.exit(1)
