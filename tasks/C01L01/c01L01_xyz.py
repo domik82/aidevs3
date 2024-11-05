@@ -18,8 +18,7 @@ PASSWORD = os.getenv("AI_DEVS_AG3NTS_PASSWORD")
 
 
 async def main():
-    page_adress = PAGE_ADRESS
-    question = await crawler_return_extracted_data(page_adress)
+    question = await crawler_return_extracted_data(PAGE_ADRESS)
 
     model = "llama3.1"  # You can change this to the specific Llama model you have
     user_question = (
@@ -30,12 +29,9 @@ async def main():
     response = llm_execute_question(model, user_question)
     print(f"\nResponse: {response}")
 
-    username = USERNAME
-    password = PASSWORD
-
-    form_login_values = {"username": username, "password": password, "answer": response}
+    form_login_values = {"username": USERNAME, "password": PASSWORD, "answer": response}
     try:
-        result_raw = requests.post(page_adress, data=form_login_values)
+        result_raw = requests.post(PAGE_ADRESS, data=form_login_values)
     except Exception as error:
         print(f"Error sending the answer: {error}")
         sys.exit(1)
