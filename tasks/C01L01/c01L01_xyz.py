@@ -1,4 +1,5 @@
 import asyncio
+import os
 import re
 import sys
 
@@ -7,16 +8,20 @@ import requests
 from tasks.C01L01.crawlee_ag3nts_sample import crawler_return_extracted_data
 from tasks.C01L01.local_llama_ask_question import llm_execute_question
 
-PAGE_ADRESS = ""
-USERNAME = ""
-PASSWORD = ""
+from dotenv import load_dotenv
+
+load_dotenv()
+
+PAGE_ADRESS = os.getenv("AG3NTS_PAGE_ADRESS")
+USERNAME = os.getenv("AI_DEVS_AG3NTS_USERNAME")
+PASSWORD = os.getenv("AI_DEVS_AG3NTS_PASSWORD")
 
 
 async def main():
     page_adress = PAGE_ADRESS
     question = await crawler_return_extracted_data(page_adress)
 
-    model = "llama3.2"  # You can change this to the specific Llama model you have
+    model = "llama3.1"  # You can change this to the specific Llama model you have
     user_question = (
         f"Your task is to answer the question asked by the user. "
         f"The answer should be as short as possible and contain only one number"
