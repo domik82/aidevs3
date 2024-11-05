@@ -7,9 +7,13 @@ import requests
 from tasks.C01L01.crawlee_ag3nts_sample import crawler_return_extracted_data
 from tasks.C01L01.local_llama_ask_question import llm_execute_question
 
+PAGE_ADRESS = ""
+USERNAME = ""
+PASSWORD = ""
+
 
 async def main():
-    page_adress = "https://xyz.ag3nts.org/"
+    page_adress = PAGE_ADRESS
     question = await crawler_return_extracted_data(page_adress)
 
     model = "llama3.2"  # You can change this to the specific Llama model you have
@@ -21,8 +25,8 @@ async def main():
     response = llm_execute_question(model, user_question)
     print(f"\nResponse: {response}")
 
-    username = "tester"
-    password = "574e112a"
+    username = USERNAME
+    password = PASSWORD
 
     form_login_values = {"username": username, "password": password, "answer": response}
     try:
