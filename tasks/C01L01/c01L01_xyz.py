@@ -12,13 +12,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PAGE_ADRESS = os.getenv("AG3NTS_PAGE_ADRESS")
+PAGE_ADDRESS = os.getenv("AG3NTS_PAGE_ADDRESS")
 USERNAME = os.getenv("AI_DEVS_AG3NTS_USERNAME")
 PASSWORD = os.getenv("AI_DEVS_AG3NTS_PASSWORD")
 
 
 async def main():
-    question = await crawler_return_extracted_data(PAGE_ADRESS)
+    question = await crawler_return_extracted_data(PAGE_ADDRESS)
 
     model = "llama3.1"  # You can change this to the specific Llama model you have
     user_question = (
@@ -31,7 +31,7 @@ async def main():
 
     form_login_values = {"username": USERNAME, "password": PASSWORD, "answer": response}
     try:
-        result_raw = requests.post(PAGE_ADRESS, data=form_login_values)
+        result_raw = requests.post(PAGE_ADDRESS, data=form_login_values)
     except Exception as error:
         print(f"Error sending the answer: {error}")
         sys.exit(1)

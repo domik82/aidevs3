@@ -42,8 +42,8 @@ async def process_site(site):
     await crawler.run([site])
 
 
-async def crawler_return_extracted_data(page_adress):
-    await process_site(page_adress)
+async def crawler_return_extracted_data(page_address):
+    await process_site(page_address)
     extracted_question = None
     # After crawling is done, process the extracted question
     if not question_queue.empty():
