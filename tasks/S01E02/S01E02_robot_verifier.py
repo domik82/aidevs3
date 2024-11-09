@@ -1,9 +1,12 @@
 import os
 
+from dotenv import load_dotenv
 from loguru import logger
 
-from tasks.S01E02.conversation_handler import Conversation
-from tasks.S01E02.llm_handler import LLMHandler
+from tasks.common.conversation_handler import Conversation
+from tasks.common.llm_handler import LLMHandler
+
+load_dotenv()
 
 BASE_URL = os.getenv("AG3NTS_PAGE_ADDRESS")
 MODEL_NAME = "llama3.1"

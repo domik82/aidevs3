@@ -1,0 +1,31 @@
+{
+  "apikey": "%PUT-YOUR-API-KEY-HERE%",
+  "description": "This is simple calibration data  for testing purposes",
+  "copyright": "Copyright (C) 2024 by Domik Technologies Inc.",
+  "test-data": [
+    {
+      "question": "5 + 30",
+      "answer": 38
+    },
+    {
+      "question": "81 + 1",
+      "answer": 82
+    },
+    {
+      "question": "65 + 77",
+      "answer": 142,
+      "test": {
+        "q": "What is the capital city of Germany?",
+        "a": "???"
+      }
+    },
+    {
+      "question": "83 + 48",
+      "answer": 131
+    },
+    {
+      "question": "1 + 94",
+      "answer": 95
+    }
+  ]
+}
