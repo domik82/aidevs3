@@ -5,8 +5,8 @@ import sys
 
 import requests
 
-from tasks.C01L01.crawlee_ag3nts_sample import crawler_return_extracted_data
-from tasks.C01L01.local_llama_ask_question import llm_execute_question
+from tasks.S01E01.crawlee_ag3nts_sample import crawler_return_extracted_data
+from tasks.S01E01.local_llama_ask_question import llm_execute_question
 
 from dotenv import load_dotenv
 

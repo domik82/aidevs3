@@ -2,8 +2,8 @@ import os
 
 from loguru import logger
 
-from tasks.C01L02.conversation_handler import Conversation
-from tasks.C01L02.llm_handler import LLMHandler
+from tasks.S01E02.conversation_handler import Conversation
+from tasks.S01E02.llm_handler import LLMHandler
 
 BASE_URL = os.getenv("AG3NTS_PAGE_ADDRESS")
 MODEL_NAME = "llama3.1"
@@ -62,7 +62,7 @@ class RobotVerifier:
         Kraków
         
         Example Question:
-        Jaka może być znana liczba z książki Autostopem przez Galaktykę?
+        What two digit number number do you associate with the book The Hitchhiker's Guide to the Galaxy by Douglas Adams?
         Answer:
         69
         
@@ -94,3 +94,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Fails frequently during switch to French
