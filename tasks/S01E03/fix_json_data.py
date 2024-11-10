@@ -1,9 +1,11 @@
 import json
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from dotenv import load_dotenv
 from loguru import logger
+from sympy import sympify
+from sympy.core.sympify import SympifyError
 
 from tasks.common.llm_handler import LLMHandler
 
@@ -28,14 +30,13 @@ def validate_test_data(data: Dict[str, Any], llm_handler: LLMHandler) -> Dict[st
 
                 # Validate arithmetic operation
                 question = item["question"]
-                if "+" in question:
-                    a, b = map(int, question.split(" + "))
-                    expected_answer = a + b
-                    if item["answer"] != expected_answer:
-                        logger.warning(
-                            f"Correcting answer for {question} from {item['answer']} to {expected_answer}"
-                        )
-                        item["answer"] = expected_answer
+                expected_answer = int(solve_math_operation(question))
+
+                if item["answer"] != expected_answer:
+                    logger.warning(
+                        f"Correcting answer for {question} from {item['answer']} to {expected_answer}"
+                    )
+                    item["answer"] = expected_answer
 
             except (ValueError, TypeError) as e:
                 logger.error(
@@ -62,6 +63,15 @@ def update_api_key(json_data: dict, new_api_key: str) -> dict:
     return json_data
 
 
+def solve_math_operation(question: str) -> Optional[int]:
+    try:
+        expression = sympify(question)
+        result = expression.evalf()
+        return result
+    except SympifyError:
+        return None
+
+
 def main():
     # Initialize LLM handler
     llm = LLMHandler()
@@ -83,3 +93,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# grabbed idea from https://github.com/Janoz94/AI_Devs3/blob/main/task_s1e3.py to use sympy
