@@ -13,7 +13,9 @@ load_dotenv()
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 
 
-def validate_test_data(data: Dict[str, Any], llm_handler: LLMHandler) -> Dict[str, Any]:
+def validate_and_update_data(
+    data: Dict[str, Any], llm_handler: LLMHandler
+) -> Dict[str, Any]:
     """
     Validates and updates test data according to specified rules:
     - Ensures 'answer' fields are integers
@@ -84,7 +86,7 @@ def main():
     updated_data = update_api_key(data, AI_DEVS_CENTRALA_TOKEN)
 
     # Validate and update data
-    validated_data = validate_test_data(updated_data, llm)
+    validated_data = validate_and_update_data(updated_data, llm)
 
     # Save updated data
     with open("validated_sample.json", "w") as f:

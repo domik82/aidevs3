@@ -8,7 +8,7 @@ from loguru import logger
 
 from common.aidevs3_taskhandler import TaskHandler
 from common.files_read_write_download import download_file, get_filename_from_url
-from tasks.S01E03.fix_json_data import update_api_key, validate_test_data
+from tasks.S01E03.fix_json_data import update_api_key, validate_and_update_data
 from tasks.common.llm_handler import LLMHandler
 
 load_dotenv()
@@ -45,12 +45,13 @@ def main():
     updated_data = update_api_key(data, AI_DEVS_CENTRALA_TOKEN)
 
     # Validate and update data
-    validated_data = validate_test_data(updated_data, llm)
+    validated_data = validate_and_update_data(updated_data, llm)
 
     # Save updated data
     with open(filename, "w") as f:
         json.dump(validated_data, f, indent=2)
 
+    # Based on info from @unknow the 'centrala' link and 'poligon' links are same (report is alias for validate)
     # report_link = f"{AI_DEVS_CENTRALA_ADDRESS}/report"
 
     task_name = "JSON"
