@@ -50,7 +50,7 @@ def validate_and_update_data(
             try:
                 question = item["test"]["q"]
                 logger.info(f"Processing test question: {question}")
-                llm_answer = llm_handler.execute_question(question)
+                llm_answer = llm_handler.ask(question)
                 item["test"]["a"] = llm_answer
             except Exception as e:
                 logger.error(f"Error processing LLM question: {e}")

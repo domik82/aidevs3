@@ -71,7 +71,7 @@ class RobotVerifier:
         
         """.format(question=question)
 
-        response = self.llm.execute_question(prompt)
+        response = self.llm.ask(prompt)
 
         # Ensure the response is not too long
         words = response.split()

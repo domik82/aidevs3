@@ -2,7 +2,7 @@ import ollama
 import time
 
 
-def llm_execute_question(model, question):
+def llm_ask(model, question):
     print(f"Connecting to local {model} model...")
     try:
         response = ollama.chat(
@@ -19,7 +19,7 @@ def main():
 
     print("Generating response...")
     start_time = time.time()
-    response = llm_execute_question(model, user_question)
+    response = llm_ask(model, user_question)
     end_time = time.time()
 
     print(f"\nResponse: {response}")

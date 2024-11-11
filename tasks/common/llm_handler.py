@@ -8,7 +8,7 @@ class LLMHandler:
     def __init__(self, model_name: str = "llama3.1"):
         self.model = model_name
 
-    def execute_question(self, question: str) -> str:
+    def ask(self, question: str) -> str:
         logger.info(f"Querying {self.model} for question: {question}")
         max_retries = 3
         retry_delay = 1

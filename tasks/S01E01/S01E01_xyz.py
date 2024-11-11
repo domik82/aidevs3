@@ -6,7 +6,7 @@ import sys
 import requests
 
 from tasks.S01E01.crawlee_ag3nts_sample import crawler_return_extracted_data
-from tasks.S01E01.local_llama_ask_question import llm_execute_question
+from tasks.S01E01.local_llama_ask_question import llm_ask
 
 from dotenv import load_dotenv
 
@@ -26,7 +26,7 @@ async def main():
         f"The answer should be as short as possible and contain only one number"
         f"that answers the question. {question}"
     )
-    response = llm_execute_question(model, user_question)
+    response = llm_ask(model, user_question)
     print(f"\nResponse: {response}")
 
     form_login_values = {"username": USERNAME, "password": PASSWORD, "answer": response}
