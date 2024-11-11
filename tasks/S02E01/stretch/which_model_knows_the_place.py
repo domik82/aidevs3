@@ -7,7 +7,7 @@ logger.add("which_model_knows_the_place.log", diagnose=True)
 
 system_prompt = "You are a helpful AI assistant specialized in finding places"
 place = "University in Krakow,  Faculty of Informatics and Computer Science"
-question = "At what street it's located?"
+question = "At what street it is located?"
 question_and_context = f"Context: {place}, question: {question}"
 
 
@@ -47,7 +47,18 @@ question_and_context = f"Context: {place}, question: {question}"
 # comment - not even close
 
 
-model_name = "hf.co/speakleash/Bielik-11B-v2.2-Instruct-GGUF-IQ-Imatrix:Q5_K_M"
+# model_name = 'hf.co/speakleash/Bielik-11B-v2.2-Instruct-GGUF-IQ-Imatrix:Q5_K_M'
+# llm = ModelHandlerFactory.create_handler(
+#     model_name=model_name, system_prompt=system_prompt
+# )
+# response = llm.ask(question_and_context)
+# ic(response)
+# logger.info(f'model_name:{model_name}, response: {response}')
+
+# comment - random results
+
+
+model_name = "codestral:22b-v0.1-q4_K_M"
 llm = ModelHandlerFactory.create_handler(
     model_name=model_name, system_prompt=system_prompt
 )
@@ -55,4 +66,4 @@ response = llm.ask(question_and_context)
 ic(response)
 logger.info(f"model_name:{model_name}, response: {response}")
 
-# comment - random results
+# comment - proper street shows up

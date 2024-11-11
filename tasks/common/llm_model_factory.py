@@ -33,6 +33,7 @@ class ModelHandlerFactory:
             "qwen2.5:14b",
             "gemma2:9b-instruct-q5_K_M",
             "hf.co/speakleash/Bielik-11B-v2.2-Instruct-GGUF-IQ-Imatrix:Q5_K_M",
+            "codestral:22b-v0.1-q4_K_M",
         ]
 
         if model_name in openai_models:
