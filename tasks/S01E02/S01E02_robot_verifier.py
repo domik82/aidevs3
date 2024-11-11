@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from tasks.common.conversation_handler import Conversation
-from tasks.common.llm_handler import LLMHandler
+from tasks.common.SimpleLLMHandler import SimpleLLMHandler
 
 load_dotenv()
 
@@ -14,7 +14,7 @@ MODEL_NAME = "llama3.1"
 
 class RobotVerifier:
     def __init__(self, base_url: str, model_name: str = "llama3.1"):
-        self.llm = LLMHandler(model_name)
+        self.llm = SimpleLLMHandler(model_name)
         self.conversation = Conversation(base_url)
 
     def verify_using_conversation(self):

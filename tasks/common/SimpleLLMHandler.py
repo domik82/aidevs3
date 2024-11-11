@@ -4,7 +4,7 @@ import ollama
 from loguru import logger
 
 
-class LLMHandler:
+class SimpleLLMHandler:
     def __init__(self, model_name: str = "llama3.1"):
         self.model = model_name
 

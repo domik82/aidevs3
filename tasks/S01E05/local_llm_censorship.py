@@ -1,13 +1,13 @@
 from icecream import ic
 
-from tasks.common.llm_with_system_prompt import LLMHandler
+from tasks.common.llm_LlamaHandler import LlamaHandler
 
 
 class Censorship:
     def __init__(self, model_name: str = "llama3.1", system_prompt: str = ""):
         self.model_name = model_name
         self.system_prompt = system_prompt
-        self.llm = LLMHandler(self.model_name, self.system_prompt)
+        self.llm = LlamaHandler(self.model_name, self.system_prompt)
 
     def set_system_prompt(self, prompt):
         self.system_prompt = prompt

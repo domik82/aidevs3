@@ -7,14 +7,14 @@ from loguru import logger
 from sympy import sympify
 from sympy.core.sympify import SympifyError
 
-from tasks.common.llm_handler import LLMHandler
+from tasks.common.SimpleLLMHandler import SimpleLLMHandler
 
 load_dotenv()
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 
 
 def validate_and_update_data(
-    data: Dict[str, Any], llm_handler: LLMHandler
+    data: Dict[str, Any], llm_handler: SimpleLLMHandler
 ) -> Dict[str, Any]:
     """
     Validates and updates test data according to specified rules:
@@ -76,7 +76,7 @@ def solve_math_operation(question: str) -> Optional[int]:
 
 def main():
     # Initialize LLM handler
-    llm = LLMHandler()
+    llm = SimpleLLMHandler()
 
     # Read JSON data
     with open("sample.json", "r") as f:
