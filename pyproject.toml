@@ -14,8 +14,8 @@ loguru = "^0.7.2"
 groq = "^0.11.0"
 ollama = "^0.3.3"
 llama-index = "^0.11.21"
-sympy = "^1.13.3"
 langfuse = "^2.53.9"
+sympy = "^1.13.1"
 
 
 [build-system]
