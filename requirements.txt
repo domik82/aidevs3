@@ -1,0 +1,9 @@
+ollama~=0.3.3
+loguru~=0.7.2
+python-dotenv~=1.0.1
+openai~=1.54.3
+requests~=2.32.3
+icecream~=2.1.3
+sympy~=1.13.3
+groq~=0.11.0
+langfuse~=2.53.9

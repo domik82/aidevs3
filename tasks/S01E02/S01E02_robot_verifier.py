@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from tasks.common.conversation_handler import Conversation
-from tasks.common.SimpleLLMHandler import SimpleLLMHandler
+from tasks.common.llm_simple_handler import SimpleLLMHandler
 
 load_dotenv()
 

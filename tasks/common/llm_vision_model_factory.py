@@ -4,7 +4,7 @@ from typing import Optional
 from loguru import logger
 
 from tasks.common.base_vision_model_handler import VisionModelHandler
-from tasks.common.llm_VisionOpenAIHandler import VisionOpenAIHandler
+from tasks.common.llm_vision_openAI_handler import VisionOpenAIHandler
 
 
 class VisionModelHandlerFactory:

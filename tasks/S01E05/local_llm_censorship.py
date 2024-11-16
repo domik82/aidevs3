@@ -1,6 +1,6 @@
 from icecream import ic
 
-from tasks.common.llm_LlamaHandler import LlamaHandler
+from tasks.common.llm_llama_handler import LlamaHandler
 
 
 class Censorship:

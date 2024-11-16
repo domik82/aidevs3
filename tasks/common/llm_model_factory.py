@@ -1,8 +1,8 @@
 from typing import Optional
 
 from tasks.common.base_model_handler import BaseModelHandler
-from tasks.common.llm_LlamaHandler import LlamaHandler
-from tasks.common.llm_OpenAIHandler import OpenAIHandler
+from tasks.common.llm_llama_handler import LlamaHandler
+from tasks.common.llm_openAI_handler import OpenAIHandler
 
 
 class ModelHandlerFactory:

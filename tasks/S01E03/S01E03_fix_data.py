@@ -9,7 +9,7 @@ from loguru import logger
 from common.aidevs3_taskhandler import TaskHandler
 from common.files_read_write_download import download_file, get_filename_from_url
 from tasks.S01E03.fix_json_data import update_api_key, validate_and_update_data
-from tasks.common.SimpleLLMHandler import SimpleLLMHandler
+from tasks.common.llm_simple_handler import SimpleLLMHandler
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
