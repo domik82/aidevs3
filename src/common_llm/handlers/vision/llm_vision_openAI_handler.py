@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from loguru import logger
 
-from src.common_llm.base_vision_model_handler import VisionModelHandler
+from src.common_llm.handlers.vision.base_vision_model_handler import VisionModelHandler
+from src.tools.find_project_root import find_project_root
 
 load_dotenv()
 
@@ -111,7 +112,7 @@ class VisionOpenAIHandler(VisionModelHandler):
             raise
 
 
-def main():
+def full_complicated_pictures():
     try:
         # Initialize the vision handler
         vision_handler = VisionOpenAIHandler(
@@ -120,10 +121,10 @@ def main():
         )
 
         # Get paths
-        base_path = os.getcwd()
+        resources_path = os.path.join(find_project_root(__file__), "resources")
 
         # Single image analysis
-        sample1_path = os.path.join(base_path, "resources", "sample1.png")
+        sample1_path = os.path.join(resources_path, "sample1.png")
         logger.info(f"Analyzing image: {sample1_path}")
 
         result = vision_handler.ask(
@@ -134,7 +135,7 @@ def main():
         print(f"{result}")
 
         # Multiple image analysis
-        sample2_path = os.path.join(base_path, "resources", "sample2.png")
+        sample2_path = os.path.join(resources_path, "sample2.png")
         logger.info(f"Analyzing multiple images: {sample1_path}, {sample2_path}")
 
         multi_result = vision_handler.ask(
@@ -149,6 +150,46 @@ def main():
         logger.error(f"Image file not found: {str(e)}")
     except Exception as e:
         logger.error(f"Error during analysis: {str(e)}")
+
+
+def simple_test_vision_model():
+    try:
+        # Create a simple test image
+        from PIL import Image
+
+        # Get paths
+        resources_path = os.path.join(find_project_root(__file__), "resources")
+
+        # Single image analysis
+        # Create a test image with some basic shapes
+        img = Image.new("RGB", (100, 100), color="white")
+        test_image_path = "test_image.png"
+        sample_path = os.path.join(resources_path, test_image_path)
+        img.save(sample_path)
+
+        # Initialize the vision handler
+        vision_handler = VisionOpenAIHandler(
+            model_name="gpt-4o-mini",
+            system_prompt="You are an expert in image analysis.",
+        )
+
+        # Test the model
+        result = vision_handler.ask(
+            question="What do you see in this image?",
+            images=[sample_path],
+        )
+        print(f"Test result: {result}")
+
+        # Clean up
+        os.remove(sample_path)
+
+    except Exception as e:
+        logger.error(f"Test failed: {str(e)}")
+
+
+def main():
+    simple_test_vision_model()
+    # full_complicated_pictures()
 
 
 if __name__ == "__main__":

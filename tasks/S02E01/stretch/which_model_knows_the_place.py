@@ -1,6 +1,6 @@
 from icecream import ic
 
-from src.common_llm.llm_model_factory import ModelHandlerFactory
+from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
 from loguru import logger
 
 logger.add("which_model_knows_the_place.log", diagnose=True)

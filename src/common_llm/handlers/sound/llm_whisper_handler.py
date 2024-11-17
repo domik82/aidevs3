@@ -8,6 +8,8 @@ from whisper.utils import get_writer
 from whisper import Whisper
 from pydub import AudioSegment
 
+from src.tools.find_project_root import find_project_root
+
 
 class TranscriptionResult:
     def __init__(self, text: str, segments: List[Dict[str, Any]]) -> None:
@@ -31,7 +33,10 @@ class AudioTranscriber:
         os.makedirs(self.output_dir, exist_ok=True)
 
     def transcribe_audio(
-        self, audio_path: str, save_formats: Optional[List[str]] = None
+        self,
+        audio_path: str,
+        save_formats: Optional[List[str]] = None,
+        prefix: Optional[str] = "transcription",
     ) -> Optional[TranscriptionResult]:
         """
         Transcribe an audio file and optionally save in specified formats.
@@ -39,9 +44,10 @@ class AudioTranscriber:
         Args:
             audio_path: Path to the audio file
             save_formats: List of format types to save (e.g., ["txt", "srt", "vtt"])
-
+            prefix: specify a prefix to use when saving the file
         Returns:
             TranscriptionResult object or None if transcription fails
+
         """
         try:
             if not os.path.exists(audio_path):
@@ -52,7 +58,7 @@ class AudioTranscriber:
             )
 
             if save_formats:
-                self._save_transcription(result, save_formats)
+                self._save_transcription(result, save_formats, prefix)
 
             return TranscriptionResult(result["text"], result["segments"])
 
@@ -60,11 +66,16 @@ class AudioTranscriber:
             print(f"An error occurred during transcription: {str(e)}")
             return None
 
-    def _save_transcription(self, result: Dict[str, Any], formats: List[str]) -> None:
-        """Save transcription results in specified formats."""
+    def _save_transcription(
+        self, result: Dict[str, Any], formats: List[str], prefix: str = "transcription"
+    ) -> None:
+        """Save transcription results in specified formats.
+        :param prefix:
+        """
         for format_type in formats:
             writer = get_writer(format_type, self.output_dir)
-            output_file = os.path.join(self.output_dir, f"transcription.{format_type}")
+
+            output_file = os.path.join(self.output_dir, f"{prefix}.{format_type}")
             writer(result, output_file)
 
     def process_long_audio(
@@ -109,16 +120,20 @@ class AudioTranscriber:
 
 
 def main() -> None:
-    base_path = os.getcwd()
-    sample_file = os.path.join(base_path, "resources", "sample.mp3")
+    resources_path = os.path.join(find_project_root(__file__), "resources")
+    output_path = os.path.join(find_project_root(__file__), "output")
+    sample_file_name = "sample.mp3"
+    sample_file = os.path.join(resources_path, sample_file_name)
 
     transcriber = AudioTranscriber(
-        model_size="large", language="en", output_dir=os.path.join(base_path, "output")
+        model_size="large", language="en", output_dir=output_path
     )
 
     # Single file transcription with multiple output formats
     result = transcriber.transcribe_audio(
-        audio_path=sample_file, save_formats=["txt", "srt", "vtt"]
+        audio_path=sample_file,
+        save_formats=["txt", "srt", "vtt"],
+        prefix="sample_transcription",
     )
 
     if result:

@@ -6,7 +6,8 @@ from typing import Optional, List
 from loguru import logger
 import requests
 
-from src.common_llm.base_vision_model_handler import VisionModelHandler
+from src.common_llm.handlers.vision.base_vision_model_handler import VisionModelHandler
+from src.tools.find_project_root import find_project_root
 
 
 class VisionOllamaHandler(VisionModelHandler):
@@ -114,7 +115,7 @@ class VisionOllamaHandler(VisionModelHandler):
             raise
 
 
-def main():
+def full_complicated_pictures():
     try:
         # Initialize the vision handler
         vision_handler = VisionOllamaHandler(
@@ -123,10 +124,10 @@ def main():
         )
 
         # Get paths
-        base_path = os.getcwd()
+        resources_path = os.path.join(find_project_root(__file__), "resources")
 
         # Single image analysis
-        sample1_path = os.path.join(base_path, "resources", "sample1.png")
+        sample1_path = os.path.join(resources_path, "sample1.png")
         logger.info(f"Analyzing image: {sample1_path}")
 
         result = vision_handler.ask(
@@ -137,7 +138,7 @@ def main():
         print(f"{result}")
 
         # Multiple image analysis
-        sample2_path = os.path.join(base_path, "resources", "sample2.png")
+        sample2_path = os.path.join(resources_path, "sample2.png")
         logger.info(f"Analyzing multiple images: {sample1_path}, {sample2_path}")
 
         multi_result = vision_handler.ask(
@@ -160,14 +161,13 @@ def simple_test_vision_model():
         from PIL import Image
 
         # Get paths
-        base_path = os.getcwd()
+        resources_path = os.path.join(find_project_root(__file__), "resources")
 
         # Single image analysis
         # Create a test image with some basic shapes
-
         img = Image.new("RGB", (100, 100), color="white")
         test_image_path = "test_image.png"
-        sample_path = os.path.join(base_path, "resources", test_image_path)
+        sample_path = os.path.join(resources_path, test_image_path)
         img.save(sample_path)
 
         # Initialize the vision handler
@@ -191,6 +191,10 @@ def simple_test_vision_model():
         logger.error(f"Test failed: {str(e)}")
 
 
+def main():
+    simple_test_vision_model()
+    full_complicated_pictures()
+
+
 if __name__ == "__main__":
     main()
-    # simple_test_vision_model()

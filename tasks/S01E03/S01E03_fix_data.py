@@ -12,7 +12,7 @@ from src.common_aidevs.files_read_write_download import (
     get_filename_from_url,
 )
 from tasks.S01E03.fix_json_data import update_api_key, validate_and_update_data
-from src.common_llm.llm_simple_handler import SimpleLLMHandler
+from src.common_llm.handlers.llm_simple_handler import SimpleLLMHandler
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")

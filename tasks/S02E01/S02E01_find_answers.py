@@ -6,7 +6,7 @@ from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
 from tasks.S02E01.find_answer import ProcessData
-from src.common_llm.files_merger import merge_files
+from src.tools.files_merger import merge_files
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")

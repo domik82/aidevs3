@@ -1,6 +1,6 @@
 import os
 from loguru import logger
-from src.common_llm.llm_vision_model_factory import VisionModelHandlerFactory
+from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
 
 
 def main():

@@ -7,7 +7,7 @@ from loguru import logger
 from sympy import sympify
 from sympy.core.sympify import SympifyError
 
-from src.common_llm.llm_simple_handler import SimpleLLMHandler
+from src.common_llm.handlers.llm_simple_handler import SimpleLLMHandler
 
 load_dotenv()
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")

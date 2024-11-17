@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from loguru import logger
 
-from src.common_llm.conversation_handler import Conversation
-from src.common_llm.llm_simple_handler import SimpleLLMHandler
+from src.common_llm.handlers.conversation_handler import Conversation
+from src.common_llm.handlers.llm_simple_handler import SimpleLLMHandler
 
 load_dotenv()
 

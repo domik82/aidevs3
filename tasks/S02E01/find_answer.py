@@ -2,9 +2,9 @@ import os
 
 from icecream import ic
 
-from src.common_llm.files_merger import merge_files
+from src.tools.files_merger import merge_files
 
-from src.common_llm.llm_model_factory import ModelHandlerFactory
+from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
 
 
 class ProcessData:
