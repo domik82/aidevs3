@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from icecream import ic
 
-from common.aidevs3_taskhandler import TaskHandler
-from common.files_read_write_download import get_data_from_url
+from src.common_aidevs.aidevs3_taskhandler import TaskHandler
+from src.common_aidevs.files_read_write_download import get_data_from_url
 from tasks.S01E05.local_llm_censorship import Censorship
 from loguru import logger
 

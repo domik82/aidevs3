@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from icecream import ic
 from loguru import logger
 
-from common.aidevs3_taskhandler import TaskHandler
+from src.common_aidevs.aidevs3_taskhandler import TaskHandler
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")

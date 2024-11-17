@@ -3,8 +3,9 @@ from typing import Optional
 
 from loguru import logger
 
-from tasks.common.base_vision_model_handler import VisionModelHandler
-from tasks.common.llm_vision_openAI_handler import VisionOpenAIHandler
+from src.common_llm.base_vision_model_handler import VisionModelHandler
+from src.common_llm.llm_vision_ollama_handler import VisionOllamaHandler
+from src.common_llm.llm_vision_openAI_handler import VisionOpenAIHandler
 
 
 class VisionModelHandlerFactory:
@@ -22,7 +23,7 @@ class VisionModelHandlerFactory:
             "gpt-4o-mini",
             "gpt-4o",
         ]
-        llama_models = []
+        ollama_models = ["llava", "bakllava", "minicpm-v:8b-2.6-q5_K_M", "llava:13b"]
 
         if model_name in openai_models:
             return VisionOpenAIHandler(
@@ -31,8 +32,13 @@ class VisionModelHandlerFactory:
                 max_retries=max_retries,
                 initial_retry_delay=initial_retry_delay,
             )
-        elif model_name in llama_models:
-            raise ValueError(f"Unsupported model: {model_name}")
+        elif model_name in ollama_models:
+            return VisionOllamaHandler(
+                model_name=model_name,
+                system_prompt=system_prompt,
+                max_retries=max_retries,
+                initial_retry_delay=initial_retry_delay,
+            )
         else:
             raise ValueError(f"Unsupported model: {model_name}")
 

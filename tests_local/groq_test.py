@@ -1,5 +1,5 @@
 from groq import Groq
-from common.constants import GROQ_API_KEY
+from src.common_aidevs.constants import GROQ_API_KEY
 
 client = Groq(
     api_key=GROQ_API_KEY,

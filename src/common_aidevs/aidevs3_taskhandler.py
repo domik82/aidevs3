@@ -3,9 +3,9 @@ from typing import Any
 
 import requests
 
-from common.aidevs3_responsehandler import ResponseBaseHandler
+from src.common_aidevs.aidevs3_responsehandler import ResponseBaseHandler
 
-from common.constants import AI_DEVS_SERVER, AI_DEVS_USER_TOKEN
+from src.common_aidevs.constants import AI_DEVS_SERVER, AI_DEVS_USER_TOKEN
 from loguru import logger
 
 logger.add("default_{time}.log", diagnose=True)

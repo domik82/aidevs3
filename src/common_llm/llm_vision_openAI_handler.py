@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from loguru import logger
 
-from tasks.common.base_vision_model_handler import VisionModelHandler
+from src.common_llm.base_vision_model_handler import VisionModelHandler
 
 load_dotenv()
 

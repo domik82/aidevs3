@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from icecream import ic
 
-from common.files_read_write_download import download_file
+from src.common_aidevs.files_read_write_download import download_file
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")

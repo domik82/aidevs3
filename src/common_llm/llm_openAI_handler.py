@@ -1,19 +1,30 @@
+import os
 from time import sleep
 from typing import List, Dict, Optional
-import ollama
+
+from dotenv import load_dotenv
+from openai import OpenAI
 from loguru import logger
 
-from tasks.common.base_model_handler import BaseModelHandler
+from src.common_llm.base_model_handler import BaseModelHandler
+
+load_dotenv()
 
 
-class LlamaHandler(BaseModelHandler):
+class OpenAIHandler(BaseModelHandler):
     def __init__(
         self,
-        model_name: str = "llama3.1",
+        model_name: str = "gpt-3.5-turbo",
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
     ):
+        # Get API key from environment variable
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY not found in environment variables")
+
+        self.client = OpenAI(api_key=api_key)
         self.model = model_name
         self.max_retries = max_retries
         self.initial_retry_delay = initial_retry_delay
@@ -28,28 +39,30 @@ class LlamaHandler(BaseModelHandler):
         logger.info("System prompt set successfully")
 
     def _make_request(self, messages: List[Dict[str, str]]) -> str:
-        """Make request to LLM with exponential backoff retry logic."""
+        """Make request to OpenAI with exponential backoff retry logic."""
         retry_delay = self.initial_retry_delay
 
         for attempt in range(self.max_retries):
             try:
-                response = ollama.chat(model=self.model, messages=messages)
-                return response["message"]["content"].strip()
-            except ollama.ResponseError as e:
+                response = self.client.chat.completions.create(
+                    model=self.model, messages=messages, temperature=0.7
+                )
+                return response.choices[0].message.content.strip()
+            except Exception as e:
                 logger.error(
                     f"Attempt {attempt + 1}/{self.max_retries} failed: {str(e)}"
                 )
                 if attempt < self.max_retries - 1:
                     sleep(retry_delay)
-                    retry_delay *= 2
+                    retry_delay *= 2  # Exponential backoff
                 else:
                     raise RuntimeError(
-                        f"Failed to get LLM response after {self.max_retries} attempts: {e}"
+                        f"Failed to get OpenAI response after {self.max_retries} attempts: {e}"
                     )
 
     def ask(self, question: str, clear_history: bool = False) -> str:
         """
-        Ask a question and get a response from the LLM.
+        Ask a question and get a response from OpenAI.
 
         Args:
             question: The question to ask
@@ -84,29 +97,29 @@ class LlamaHandler(BaseModelHandler):
 
 
 def main():
-    # Initialize with a system prompt
-    llm = LlamaHandler(
-        model_name="llama3.1",
+    # Initialize with API key and system prompt
+    handler = OpenAIHandler(
+        model_name="gpt-3.5-turbo",
         system_prompt="You are a helpful AI assistant specialized in Python programming.",
     )
 
-    # Ask questions
-    response1 = llm.ask("What is a Python decorator?")
-    print(response1)
+    # Example usage
+    try:
+        # Ask a question
+        response = handler.ask("What is a Python decorator?")
+        print(f"Response: {response}")
 
-    # Ask follow-up question (maintains context)
-    response2 = llm.ask("Can you show an example?")
-    print(response2)
+        # Ask follow-up with context
+        response = handler.ask("Can you show an example?")
+        print(f"Follow-up response: {response}")
 
-    # Clear conversation history
-    llm.clear_conversation()
+        # Clear conversation and ask new question
+        handler.clear_conversation()
+        response = handler.ask("Explain Python generators", clear_history=True)
+        print(f"New topic response: {response}")
 
-    # Or ask a question and clear history afterward
-    response3 = llm.ask("What is Python GIL?", clear_history=True)
-    print(response3)
-
-    # Change system prompt
-    llm.set_system_prompt("You are now a data science expert.")
+    except Exception as e:
+        logger.error(f"Error during execution: {str(e)}")
 
 
 if __name__ == "__main__":

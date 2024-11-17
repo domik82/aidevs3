@@ -1,6 +1,6 @@
 from loguru import logger
-from common.aidevs3_taskhandler import TaskHandler
-from common.files_read_write_download import get_data_from_url
+from src.common_aidevs.aidevs3_taskhandler import TaskHandler
+from src.common_aidevs.files_read_write_download import get_data_from_url
 
 
 def hello_api_task():
