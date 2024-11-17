@@ -55,8 +55,12 @@ def download_file(
 
 def save_file(content: Union[str, bytes], filepath: str) -> None:
     mode = "wb" if isinstance(content, bytes) else "w"
-    with open(filepath, mode) as file:
-        file.write(content)
+    if mode == "w":
+        with open(filepath, mode, encoding="utf-8") as file:
+            file.write(content)
+    else:
+        with open(filepath, mode) as file:
+            file.write(content)
 
 
 def read_file(filepath: str) -> bytes:
@@ -66,6 +70,32 @@ def read_file(filepath: str) -> bytes:
 
 def get_filename_from_url(url: str) -> str:
     return urlparse(url).path.split("/")[-1]
+
+
+def read_txt_file(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = f.read()  # reads entire file into a single string
+    return data
+
+
+def build_filename(filename: str, prefix: str = "", suffix: str = "") -> str:
+    """
+    Build filename pattern with optional prefix and suffix.
+
+    Args:
+        filename: Base filename
+        prefix: Optional prefix to add
+        suffix: Optional suffix to add
+    Returns:
+        Constructed filename pattern
+    """
+    parts = []
+    if prefix:
+        parts.append(prefix)
+    parts.append(filename)
+    if suffix:
+        parts.append(suffix)
+    return "_".join(parts)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import json
 import os
 
 from dotenv import load_dotenv
@@ -10,21 +11,24 @@ load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 
-# {
-#   "people": ["plik1.txt", "plik2.mp3", "plikN.png"],
-#   "hardware": ["plik4.txt", "plik5.png", "plik6.mp3"],
-# }
 
-task = """Zadanie: Zdobyliśmy dostęp do danych z fabryki, którą nam wskazałeś. Są to raporty dzienne kilku działających tam oddziałów. Część z nich to zwykłe raporty techniczne, a część to raporty związane z bezpieczeństwem. Pozyskane dane są w różnych formatach i nie wszystkie zawierają użyteczne dane. Wydobądź dla nas proszę tylko notatki zawierające informacje o schwytanych ludziach lub o śladach ich obecności oraz o naprawionych usterkach hardwarowych (pomiń te związane z softem oraz pomiń katalog z faktami). Raport wyślij do zadania “kategorie” w formie jak poniżej. Pliki powinny być posortowane alfabetycznie."""
+# The process files executes 99% of things locally. I'm able to do OCR , OCR using LLM and I'm using whisper
+# to convert audio to file.
+# The process wasn't tested with openAI or anything like that (potentially should).
+# once the files are generated there is option to simply leave them and reuse
+# The OCR process causes majority of errors
+# I wasn't able to do the task using llama.
 
 
 def main():
     try:
         task_name = "kategorie"
-        result = {
-            "people": ["plik1.txt", "plik2.mp3", "plikN.png"],
-            "hardware": ["plik4.txt", "plik5.png", "plik6.mp3"],
-        }
+        result_file_name = "final_result_file_llm.json"
+        base_path = os.getcwd()
+        result_file = os.path.join(base_path, result_file_name)
+        with open(result_file, "r") as f:
+            file_contents = f.read()
+        result = json.loads(file_contents)
 
         handler = TaskHandler(AI_DEVS_CENTRALA_ADDRESS, AI_DEVS_CENTRALA_TOKEN)
         answer_response = handler.post_answer(task_name, result)
