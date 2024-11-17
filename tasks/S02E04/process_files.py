@@ -2,25 +2,18 @@ import json
 import os
 
 from icecream import ic
-from loguru import logger
 
+from src.audio_tools.convert_mp3_using_whisper import convert_mp3_to_txt
 from src.common_aidevs.files_read_write_download import (
     save_file,
-    read_file,
     read_txt_file,
     build_filename,
 )
 from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
-from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
-from src.common_llm.handlers.sound.llm_whisper_handler import AudioTranscriber
-from src.tools.perform_ocr import ImageOCR
-
-
-def extract_json_from_wrapped_response(response):
-    start = response.index("{")
-    end = response.index("}") + 1
-    json_str = response[start:end]
-    return json.loads(json_str)
+from src.tools.json_extractor_from_llm_response import (
+    extract_json_from_wrapped_response,
+)
+from src.video_tools.use_ocr_with_llm import ocr_image
 
 
 def process_files_in_folder(folder_path):
@@ -176,122 +169,6 @@ def ask_question(filename, text):
 
     except Exception as e:
         print(f"Error: {str(e)}")
-
-
-def convert_mp3_to_txt(
-    file_path="", output_dir="", prefix="", suffix="", overwrite=False
-):
-    print(f"Convert mp3 to txt for: {file_path}")
-
-    save_format = "txt"
-    # Get filename with extension
-    filename = os.path.basename(file_path)
-    # Get filename without extension
-    filename_no_ext = os.path.splitext(os.path.basename(filename))[0]
-    output_file_pattern = build_filename(filename_no_ext, prefix, suffix)
-    if output_dir == "":
-        output_dir = os.getcwd()
-
-    # Check if output dir exists and create it otherwise
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Get output file path with extension
-    save_file_path = os.path.join(output_dir, f"{output_file_pattern}.{save_format}")
-
-    if os.path.exists(save_file_path):
-        if overwrite is True:
-            os.remove(save_file_path)
-        else:
-            return read_file(save_file_path)
-
-    # Initialize transcriber with model settings
-    transcriber = AudioTranscriber(model_size="large", language="en")
-
-    # Transcribe with file output
-    result = transcriber.transcribe_audio(
-        audio_path=file_path,
-        output_dir=output_dir,
-        output_filename=output_file_pattern,
-        save_formats=[save_format],
-    )
-
-    if result:
-        print("\nTranscription:\n", result.text)
-        return result.text
-    else:
-        print("Transcription failed")
-
-
-def ocr_image(
-    filepath="",
-    output_dir="",
-    prefix="",
-    suffix="ocr",
-    overwrite_ocr=False,
-    use_llm=True,
-    overwrite_llm=False,
-):
-    print(f"Reading the image file: {filepath}")
-
-    save_format = "txt"
-    # Get filename with extension
-    filename = os.path.basename(filepath)
-    # Get filename without extension
-    filename_no_ext = os.path.splitext(os.path.basename(filename))[0]
-    pure_ocr = os.path.join(
-        output_dir,
-        f"{build_filename(filename_no_ext, prefix, 'pure_ocr')}.{save_format}",
-    )
-
-    if os.path.exists(pure_ocr):
-        if overwrite_ocr:
-            os.remove(pure_ocr)
-            ocr_processor = ImageOCR(filepath, language="pl", use_gpu=True)
-            ocr_processor.process_and_save_formatted(output_filename=pure_ocr)
-        else:
-            if not use_llm:
-                return read_txt_file(pure_ocr)
-
-    output_file = os.path.join(
-        output_dir, f"{build_filename(filename_no_ext, prefix, suffix)}.{save_format}"
-    )
-    if use_llm:
-        if os.path.exists(output_file):
-            if overwrite_llm:
-                os.remove(output_file)
-            else:
-                return read_txt_file(output_file)
-        # Create handler for OpenAI model
-        ocr_text = read_txt_file(pure_ocr)
-        vision_handler = VisionModelHandlerFactory.create_handler(
-            # model_name="llava:13b", # don't use it
-            # model_name="llava:34b", # same wasn't able to recognize text
-            model_name="minicpm-v:8b-2.6-q5_K_M",
-            system_prompt="You are an expert in image analysis.",
-        )
-        logger.info(f"Analyzing image: {filepath}")
-        question = f"""Please do OCR on the image. 
-                    Image contains polish text. 
-                    I was able to read it partially please correct any mistakes. 
-                    Here is my text: {ocr_text}
-                    Return text ONLY
-                    """
-
-        result = vision_handler.ask(
-            # question="Please do OCR of the image. It contains polish text, make sure you properly read it",
-            question=question,
-            images=[filepath],
-        )
-    else:
-        result = read_txt_file(pure_ocr)
-
-    print("\nImage Analysis Results:")
-
-    save_file(result, output_file)
-
-    print(f"{result}")
-    return result
 
 
 def main():
