@@ -19,6 +19,8 @@ sympy = "^1.13.1"
 pydub = "^0.25.1"
 whisper = "*"
 paddleocr = "^2.9.1"
+markdown2 = "^2.5.1"
+pathvalidate = "^3.2.1"
 
 [build-system]
 requires = ["poetry-core"]

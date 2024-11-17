@@ -5,7 +5,7 @@ from src.common_llm.handlers.sound.llm_whisper_handler import AudioTranscriber
 
 
 def convert_mp3_to_txt(
-    file_path="", output_dir="", prefix="", suffix="", overwrite=False
+    file_path="", output_dir="", prefix="", suffix="", overwrite=False, language="en"
 ):
     print(f"Convert mp3 to txt for: {file_path}")
 
@@ -32,7 +32,7 @@ def convert_mp3_to_txt(
             return read_file(save_file_path)
 
     # Initialize transcriber with model settings
-    transcriber = AudioTranscriber(model_size="large", language="en")
+    transcriber = AudioTranscriber(model_size="large", language=language)
 
     # Transcribe with file output
     result = transcriber.transcribe_audio(
