@@ -7,26 +7,22 @@ from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
 
+
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
-
-# {
-#     "ID-pytania-01": "krótka odpowiedź w 1 zdaniu",
-#     "ID-pytania-02": "krótka odpowiedź w 1 zdaniu",
-#     "ID-pytania-03": "krótka odpowiedź w 1 zdaniu",
-#     "ID-pytania-NN": "krótka odpowiedź w 1 zdaniu"
-# }
 
 
 def main():
     try:
         task_name = "arxiv"
-        result_file_name = ""
+        result_file_name = "llm_response_json.json"
         base_path = os.getcwd()
         result_file = os.path.join(base_path, result_file_name)
-        with open(result_file, "r") as f:
-            file_contents = f.read()
+
+        with open(result_file, "r", encoding="utf-8") as data_file:
+            file_contents = data_file.read()
+
         result = json.loads(file_contents)
 
         handler = TaskHandler(AI_DEVS_CENTRALA_ADDRESS, AI_DEVS_CENTRALA_TOKEN)

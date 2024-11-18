@@ -1999,6 +1999,25 @@ gmpy = ["gmpy2 (>=2.1.0a4)"]
 tests = ["pytest (>=4.6)"]
 
 [[package]]
+name = "mpu"
+version = "0.23.1"
+description = "Martins Python Utilities"
+optional = false
+python-versions = ">= 3.6"
+files = [
+    {file = "mpu-0.23.1-py3-none-any.whl", hash = "sha256:04a31c7db11202bbae23b8c81034a0e8a7b63784a9a7536435ceaf578ec0c094"},
+    {file = "mpu-0.23.1.tar.gz", hash = "sha256:93d6409d3556178e6fd24b90b151d60f2ddeea5b17844e0c615d802f5510395b"},
+]
+
+[package.extras]
+all = ["Pillow", "boto3", "pandas", "pytest", "pytest-cov", "pytest-flake8", "pytest-mccabe", "python-magic", "pytz", "simplejson", "tzlocal"]
+aws = ["boto3"]
+datetime = ["pytz"]
+image = ["Pillow"]
+io = ["pytz", "tzlocal"]
+tests = ["pytest", "pytest-cov", "pytest-flake8", "pytest-mccabe", "simplejson"]
+
+[[package]]
 name = "multidict"
 version = "6.1.0"
 description = "multidict implementation"
@@ -4001,4 +4020,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "9c13301925960bf47712f98ea4af68bbca1c9adcd62a10e65dbd05811aec1681"
+content-hash = "784f5bab6b3cdfdc9fd85a536592bab001e66425756e3bcd92069b8d9c5246c2"

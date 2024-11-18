@@ -1,6 +1,14 @@
+import os
+
+from dotenv import load_dotenv
 from markdown_crawler import md_crawl
 
-url = "https://centrala.ag3nts.org/dane/arxiv-draft.html"
+
+load_dotenv()
+AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
+AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
+
+url = f"{AI_DEVS_CENTRALA_ADDRESS}/dane/arxiv-draft.html"
 md_crawl(url, max_depth=3, num_threads=5, base_dir="markdown")
 
 # failure

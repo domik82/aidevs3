@@ -1,6 +1,6 @@
 import os
 
-from src.md_files_tools.add_description_to_markdown import (
+from src.markdown_tools.add_description_to_markdown_by_txt_files import (
     add_file_captions,
     get_description_path,
 )

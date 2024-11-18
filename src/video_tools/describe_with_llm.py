@@ -18,6 +18,7 @@ def describe_image(
     suffix="",
     overwrite=False,
     additional_context="",
+    model_name="minicpm-v:8b-2.6-q5_K_M",
 ):
     print(f"Reading the image file: {filepath}")
 
@@ -40,16 +41,19 @@ def describe_image(
     vision_handler = VisionModelHandlerFactory.create_handler(
         # model_name="llava:13b", # don't use it
         # model_name="llava:34b", # same wasn't able to recognize text
-        model_name="minicpm-v:8b-2.6-q5_K_M",
+        # model_name="minicpm-v:8b-2.6-q5_K_M",
+        model_name=model_name,
         system_prompt="You are an expert in image analysis.",
     )
     logger.info(f"Analyzing image: {filepath}")
 
     question = """
                 Please describe what you see on the image. 
+                Respond in English only.
                 """
+
     if additional_context != "":
-        question = f"{question}. Additional context about picture {additional_context}"
+        question = f"{question}. Take into consideration additional context about picture {additional_context}."
 
     result = vision_handler.ask(
         # question="Please do OCR of the image. It contains polish text, make sure you properly read it",

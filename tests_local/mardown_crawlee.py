@@ -11,6 +11,17 @@ from markdownify import markdownify as md
 
 from pathvalidate import sanitize_filename
 
+import os
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
+AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
+AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
+
+url = f"{AI_DEVS_CENTRALA_ADDRESS}/dane/arxiv-draft.html"
+
 
 def url_to_foldername(url: str, max_length: int = 50) -> str:
     """Convert URL to a valid folder name"""
@@ -73,6 +84,9 @@ class WebCrawler:
         try:
             # Convert HTML to Markdown
             markdown_content = md(html_content, heading_style="ATX", bullets="*")
+
+            # Replace all backslashes with forward slashes in the markdown content
+            markdown_content = markdown_content.replace("\\", "/")
 
             # Add metadata
             metadata = "---\n"
@@ -213,7 +227,7 @@ class WebCrawler:
 
 async def main():
     crawler = WebCrawler()
-    await crawler.run("https://centrala.ag3nts.org/dane/arxiv-draft.html")
+    await crawler.run(url)
 
 
 if __name__ == "__main__":
