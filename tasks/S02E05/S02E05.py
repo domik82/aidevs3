@@ -16,7 +16,7 @@ AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 def main():
     try:
         task_name = "arxiv"
-        result_file_name = "llm_response_json.json"
+        result_file_name = "response_json"
         base_path = os.getcwd()
         result_file = os.path.join(base_path, result_file_name)
 

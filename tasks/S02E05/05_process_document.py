@@ -3,7 +3,9 @@ import os
 
 # Create handler for Llama model
 from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
-
+from src.tools.json_extractor_from_llm_response import (
+    extract_json_from_wrapped_response,
+)
 
 questions = """
 01=jakiego owocu użyto podczas pierwszej próby transmisji materii w czasie?
@@ -75,8 +77,9 @@ for question in questions_json:
 
 # print(question_list)
 
-md_file_path = "documents/centrala_ag3nts_dane_arxiv-draft/final.md"
-context_file_path = os.path.join(base_path, md_file_path)
+context_file_path = os.path.join(
+    base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft", "final.md"
+)
 context = read_file(context_file_path)
 
 llm_handler = ModelHandlerFactory.create_handler(
@@ -90,15 +93,16 @@ llm_handler = ModelHandlerFactory.create_handler(
 llm_response = llm_handler.ask(
     f"Based on context:{context} Answer questions: \n {questions} "
 )
+print(llm_response)
+
+response_json = extract_json_from_wrapped_response(llm_response)
 
 
-load_json = json.loads(llm_response)
-
-with open("output.json", "w", encoding="utf-8") as f:
-    json.dump(load_json, f)
+with open("response_json", "w", encoding="utf-8") as f:
+    json.dump(response_json, f)
 
 
-llm_response_file = os.path.join(base_path, "output.json")
+llm_response_file = os.path.join(base_path, "response_json")
 with open(llm_response_file, "r", encoding="utf-8") as data_file:
     content = data_file.read()
     load_json = json.loads(content)

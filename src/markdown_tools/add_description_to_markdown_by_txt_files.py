@@ -58,15 +58,15 @@ def replace_match(match, pattern_type, descriptions):
 
     file_ext = Path(file_path).suffix.lower()
     if file_ext in [".jpg", ".png", ".gif", ".jpeg"]:
-        caption_type = "image_caption"
+        caption_type = "image-caption"
     elif file_ext in [".mp3", ".wav", ".ogg"]:
-        caption_type = "audio_caption"
+        caption_type = "audio-transcription"
     elif file_ext in [".mp4", ".avi", ".mov"]:
-        caption_type = "video_caption"
+        caption_type = "video-description"
     else:
         caption_type = "file_caption"
 
-    return f"{original_tag}\n*{caption_type}: {description}*"
+    return f"{original_tag}\n*<{caption_type}> {description} </{caption_type}>*"
 
 
 def add_file_captions(md_content, base_path):

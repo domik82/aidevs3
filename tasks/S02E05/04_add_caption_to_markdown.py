@@ -8,7 +8,7 @@ base_path = os.getcwd()
 print(base_path)
 
 md_file_path = os.path.join(
-    base_path, "documents\centrala_ag3nts_dane_arxiv-draft\index.md"
+    base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft", "index.md"
 )
 print(md_file_path)
 
@@ -18,12 +18,14 @@ with open(md_file_path, "r", encoding="utf-8") as file:
 
 # Process the markdown
 resources_root_path = os.path.join(
-    base_path, "documents\centrala_ag3nts_dane_arxiv-draft"
+    base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft"
 )
 
 result = add_file_captions(md_content, resources_root_path)
 
-output_path = os.path.join(base_path, "documents\centrala_ag3nts_dane_arxiv-draft")
+output_path = os.path.join(
+    base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft"
+)
 final_md_file_path = os.path.join(output_path, "final.md")
 print(result)
 

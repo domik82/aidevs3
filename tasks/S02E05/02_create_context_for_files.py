@@ -18,7 +18,9 @@ def process_markdown_file(file_path):
 # # Usage example
 base_path = os.getcwd()
 md_file_path = os.path.join(
-    base_path, "documents\centrala_ag3nts_dane_arxiv-draft\index.md"
+    os.path.join(
+        base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft", "index.md"
+    )
 )
 print(md_file_path)
 

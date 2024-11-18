@@ -45,7 +45,10 @@ def process_files_recursively(root_folder, context):
                     pass
                 elif filename.endswith(".mp3"):
                     convert_mp3_to_txt(
-                        file_path=file_path, output_dir=output_dir, suffix=suffix
+                        file_path=file_path,
+                        output_dir=output_dir,
+                        suffix=suffix,
+                        overwrite=False,
                     )
                     description = read_description_file(description_path)
                     if description is not None:
@@ -57,7 +60,7 @@ def process_files_recursively(root_folder, context):
                         output_dir=output_dir,
                         suffix=suffix,
                         additional_context=additional_context,
-                        overwrite=True,
+                        overwrite=False,
                     )
                     description = read_description_file(description_path)
                     if description is not None:
@@ -80,16 +83,16 @@ def main():
         # Get base path and construct root folder path
         base_path = os.getcwd()
         root_folder = os.path.join(
-            base_path, "documents", "centrala_ag3nts_dane_arxiv-draft"
+            base_path, "output", "documents", "centrala_ag3nts_dane_arxiv-draft"
         )
-        md_file_path = os.path.join(
-            base_path, "documents\centrala_ag3nts_dane_arxiv-draft\index.md"
-        )
+        md_file_path = os.path.join(root_folder, "index.md")
         with open(md_file_path, "r", encoding="utf-8") as file:
             md_content = file.read()
 
+        # Extract context around all files
         output = extract_file_paths_and_paragraphs(md_content)
-        # Process all files
+
+        # Process all files with context
         results = process_files_recursively(root_folder, output)
 
         # Save results to JSON file
