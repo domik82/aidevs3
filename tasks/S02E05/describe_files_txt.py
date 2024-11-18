@@ -3,8 +3,10 @@ import os
 from icecream import ic
 
 from src.audio_tools.convert_mp3_using_whisper import convert_mp3_to_txt
-
 from src.video_tools.describe_with_llm import describe_image
+
+# TODO: Convert all that to json that will describe all file
+# then search data in json instead of creating txt file
 
 
 def process_files_in_folder(folder_path):
