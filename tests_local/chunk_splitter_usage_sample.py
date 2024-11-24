@@ -5,6 +5,7 @@ from typing import List, TypedDict
 
 from tabulate import tabulate
 
+from src.common_llm.llm_enums import OpenAIModels
 from src.tools.find_project_root import find_project_root
 from src.tools.text_splitter import TextSplitter
 
@@ -23,7 +24,7 @@ async def process_file(file_path: str) -> Report:
         text = f.read()
 
     # Initialize splitter and process text
-    splitter = TextSplitter()
+    splitter = TextSplitter(OpenAIModels.GPT_4.value)
     chunks = await splitter.split(text, 1000)
 
     # Save output

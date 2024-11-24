@@ -2,6 +2,8 @@ from typing import Dict, List, Tuple, TypedDict
 import re
 import tiktoken
 
+from src.common_llm.llm_enums import OpenAIModels
+
 
 # Usage:
 # Initialize splitter and process text
@@ -22,7 +24,7 @@ class Doc(TypedDict):
 
 
 class TextSplitter:
-    def __init__(self, model_name: str = "gpt-4o") -> None:
+    def __init__(self, model_name: str = OpenAIModels.GPT_4o.value) -> None:
         self.model_name = model_name
         self.tokenizer = tiktoken.encoding_for_model(model_name)
         self.special_tokens = {
