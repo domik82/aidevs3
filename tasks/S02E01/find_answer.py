@@ -2,6 +2,7 @@ import os
 
 from icecream import ic
 
+from src.common_llm.llm_enums import LlamaModels
 from src.tools.files_merger import merge_files
 
 from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
@@ -10,7 +11,7 @@ from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
 class ProcessData:
     def __init__(
         self,
-        model_name: str = "llama3.1",
+        model_name: str = LlamaModels.LLAMA3_1.value,
         system_prompt: str = "You are a helpful AI assistant.",
         datafile_path: str = "",
     ):
@@ -84,7 +85,7 @@ def main():
         data_processor = ProcessData(
             datafile_path=output_file,
             system_prompt=system_prompt,
-            model_name="llama3.1",
+            model_name=LlamaModels.LLAMA3_1.value,
         )
 
         result = data_processor.process_data(

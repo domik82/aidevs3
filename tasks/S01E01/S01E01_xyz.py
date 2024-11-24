@@ -5,6 +5,7 @@ import sys
 
 import requests
 
+from src.common_llm.llm_enums import LlamaModels
 from tasks.S01E01.crawlee_ag3nts_sample import crawler_return_extracted_data
 from tasks.S01E01.local_llama_ask_question import llm_ask
 
@@ -20,7 +21,9 @@ PASSWORD = os.getenv("AI_DEVS_AG3NTS_PASSWORD")
 async def main():
     question = await crawler_return_extracted_data(PAGE_ADDRESS)
 
-    model = "llama3.1"  # You can change this to the specific Llama model you have
+    model = (
+        LlamaModels.LLAMA3_1.value
+    )  # You can change this to the specific Llama model you have
     user_question = (
         f"Your task is to answer the question asked by the user. "
         f"The answer should be as short as possible and contain only one number"

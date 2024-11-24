@@ -8,6 +8,7 @@ from src.common_aidevs.files_read_write_download import (
     build_filename,
 )
 from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
+from src.common_llm.llm_enums import LlamaVisionModels
 from src.tools.find_project_root import find_project_root
 
 
@@ -18,7 +19,7 @@ def describe_image(
     suffix="",
     overwrite=False,
     additional_context="",
-    model_name="minicpm-v:8b-2.6-q5_K_M",
+    model_name=LlamaVisionModels.MINICPM.value,
 ):
     print(f"Reading the image file: {filepath}")
 

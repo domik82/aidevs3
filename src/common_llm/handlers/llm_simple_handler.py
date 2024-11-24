@@ -3,9 +3,11 @@ from time import sleep
 import ollama
 from loguru import logger
 
+from src.common_llm.llm_enums import LlamaModels
+
 
 class SimpleLLMHandler:
-    def __init__(self, model_name: str = "llama3.1"):
+    def __init__(self, model_name: str = LlamaModels.LLAMA3_1.value):
         self.model = model_name
 
     def ask(self, question: str) -> str:

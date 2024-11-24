@@ -5,15 +5,16 @@ from loguru import logger
 
 from src.common_llm.handlers.conversation_handler import Conversation
 from src.common_llm.handlers.llm_simple_handler import SimpleLLMHandler
+from src.common_llm.llm_enums import LlamaModels
 
 load_dotenv()
 
 BASE_URL = os.getenv("AG3NTS_PAGE_ADDRESS")
-MODEL_NAME = "llama3.1"
+MODEL_NAME = LlamaModels.LLAMA3_1.value
 
 
 class RobotVerifier:
-    def __init__(self, base_url: str, model_name: str = "llama3.1"):
+    def __init__(self, base_url: str, model_name: str = LlamaModels.LLAMA3_1.value):
         self.llm = SimpleLLMHandler(model_name)
         self.conversation = Conversation(base_url)
 

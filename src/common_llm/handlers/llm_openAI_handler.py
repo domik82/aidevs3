@@ -7,6 +7,7 @@ from openai import OpenAI
 from loguru import logger
 
 from src.common_llm.handlers.base_model_handler import BaseModelHandler
+from src.common_llm.llm_enums import OpenAIModels
 
 load_dotenv()
 
@@ -99,7 +100,7 @@ class OpenAIHandler(BaseModelHandler):
 def main():
     # Initialize with API key and system prompt
     handler = OpenAIHandler(
-        model_name="gpt-3.5-turbo",
+        model_name=OpenAIModels.GPT_35_TURBO.value,
         system_prompt="You are a helpful AI assistant specialized in Python programming.",
     )
 

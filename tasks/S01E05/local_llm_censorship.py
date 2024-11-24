@@ -1,10 +1,13 @@
 from icecream import ic
 
 from src.common_llm.handlers.llm_llama_handler import LlamaHandler
+from src.common_llm.llm_enums import LlamaModels
 
 
 class Censorship:
-    def __init__(self, model_name: str = "llama3.1", system_prompt: str = ""):
+    def __init__(
+        self, model_name: str = LlamaModels.LLAMA3_1.value, system_prompt: str = ""
+    ):
         self.model_name = model_name
         self.system_prompt = system_prompt
         self.llm = LlamaHandler(self.model_name, self.system_prompt)

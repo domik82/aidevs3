@@ -7,6 +7,7 @@ from loguru import logger
 import requests
 
 from src.common_llm.handlers.vision.base_vision_model_handler import VisionModelHandler
+from src.common_llm.llm_enums import LlamaVisionModels
 from src.tools.find_project_root import find_project_root
 
 
@@ -119,7 +120,7 @@ def full_complicated_pictures():
     try:
         # Initialize the vision handler
         vision_handler = VisionOllamaHandler(
-            model_name="minicpm-v:8b-2.6-q5_K_M",
+            model_name=LlamaVisionModels.MINICPM.value,
             system_prompt="You are an expert in image analysis.",
         )
 
@@ -172,8 +173,8 @@ def simple_test_vision_model():
 
         # Initialize the vision handler
         vision_handler = VisionOllamaHandler(
-            # model_name="llava:13b",
-            model_name="minicpm-v:8b-2.6-q5_K_M",
+            # model_name=LlamaVisionModels.LLAVA_13B.value,
+            model_name=LlamaVisionModels.MINICPM.value,
             system_prompt="You are an expert in image analysis.",
         )
 

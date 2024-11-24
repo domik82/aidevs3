@@ -4,12 +4,13 @@ import ollama
 from loguru import logger
 
 from src.common_llm.handlers.base_model_handler import BaseModelHandler
+from src.common_llm.llm_enums import LlamaModels
 
 
 class LlamaHandler(BaseModelHandler):
     def __init__(
         self,
-        model_name: str = "llama3.1",
+        model_name: str = LlamaModels.LLAMA3_1.value,
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
@@ -86,7 +87,7 @@ class LlamaHandler(BaseModelHandler):
 def main():
     # Initialize with a system prompt
     llm = LlamaHandler(
-        model_name="llama3.1",
+        model_name=LlamaModels.LLAMA3_1.value,
         system_prompt="You are a helpful AI assistant specialized in Python programming.",
     )
 

@@ -1,6 +1,8 @@
 import ollama
 import time
 
+from src.common_llm.llm_enums import LlamaModels
+
 
 def ask_question(model, question):
     try:
@@ -13,7 +15,9 @@ def ask_question(model, question):
 
 
 def main():
-    model = "llama3.1"  # You can change this to the specific Llama model you have
+    model = (
+        LlamaModels.LLAMA3_1.value
+    )  # You can change this to the specific Llama model you have
     print(f"Connecting to local {model} model...")
 
     while True:

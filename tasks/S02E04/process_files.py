@@ -10,6 +10,7 @@ from src.common_aidevs.files_read_write_download import (
     build_filename,
 )
 from src.common_llm.factory.llm_model_factory import ModelHandlerFactory
+from src.common_llm.llm_enums import OpenAIModels
 from src.tools.json_extractor_from_llm_response import (
     extract_json_from_wrapped_response,
 )
@@ -154,10 +155,10 @@ def ask_question(filename, text):
         """
         # Create handler for Llama model
         llm_handler = ModelHandlerFactory.create_handler(
-            # model_name="gpt-3.5-turbo",
-            # model_name="llama3.1",
-            model_name="gpt-4o-mini",
-            # model_name="gpt-4o",
+            # model_name=OpenAIModels.GPT_35_TURBO.value,
+            # model_name=LlamaModels.LLAMA3_1.value,
+            # model_name=OpenAIModels.GPT_4o_MINI.value,
+            model_name=OpenAIModels.GPT_4o.value,
             system_prompt=categorization_system_prompt,
         )
 

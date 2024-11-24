@@ -8,6 +8,7 @@ from src.common_aidevs.files_read_write_download import (
     build_filename,
 )
 from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
+from src.common_llm.llm_enums import LlamaVisionModels
 from src.tools.perform_ocr import ImageOCR
 
 
@@ -53,9 +54,9 @@ def ocr_image(
         # Create handler for OpenAI model
         ocr_text = read_txt_file(pure_ocr)
         vision_handler = VisionModelHandlerFactory.create_handler(
-            # model_name="llava:13b", # don't use it
-            # model_name="llava:34b", # same wasn't able to recognize text
-            model_name="minicpm-v:8b-2.6-q5_K_M",
+            # model_name=LlamaVisionModels.LLAVA_13B.value, # don't use it
+            # model_name=LlamaVisionModels.LLAVA_34B.value, # same wasn't able to recognize text
+            model_name=LlamaVisionModels.MINICPM.value,
             system_prompt="You are an expert in image analysis.",
         )
         logger.info(f"Analyzing image: {filepath}")

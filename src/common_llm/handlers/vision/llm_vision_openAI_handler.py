@@ -7,6 +7,7 @@ from openai import OpenAI
 from loguru import logger
 
 from src.common_llm.handlers.vision.base_vision_model_handler import VisionModelHandler
+from src.common_llm.llm_enums import OpenAIVisionModels
 from src.tools.find_project_root import find_project_root
 
 load_dotenv()
@@ -15,7 +16,7 @@ load_dotenv()
 class VisionOpenAIHandler(VisionModelHandler):
     def __init__(
         self,
-        model_name: str = "gpt-4o-mini",
+        model_name: str = OpenAI,
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
@@ -116,7 +117,7 @@ def full_complicated_pictures():
     try:
         # Initialize the vision handler
         vision_handler = VisionOpenAIHandler(
-            model_name="gpt-4o-mini",
+            model_name=OpenAIVisionModels.GPT_4O_MINI.value,
             system_prompt="You are an expert in image analysis.",
         )
 
@@ -169,7 +170,7 @@ def simple_test_vision_model():
 
         # Initialize the vision handler
         vision_handler = VisionOpenAIHandler(
-            model_name="gpt-4o-mini",
+            model_name=OpenAIVisionModels.GPT_4O_MINI.value,
             system_prompt="You are an expert in image analysis.",
         )
 

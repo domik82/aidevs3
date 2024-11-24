@@ -3,6 +3,7 @@ from typing import Optional
 from src.common_llm.handlers.base_model_handler import BaseModelHandler
 from src.common_llm.handlers.llm_llama_handler import LlamaHandler
 from src.common_llm.handlers.llm_openAI_handler import OpenAIHandler
+from src.common_llm.llm_enums import OpenAIModels, LlamaModels
 
 
 class ModelHandlerFactory:
@@ -16,42 +17,26 @@ class ModelHandlerFactory:
         """
         Factory method to create appropriate model handler based on model name.
         """
-        openai_models = [
-            "gpt-3.5-turbo",
-            "gpt-4",
-            "gpt-4-turbo",
-            "gpt-4o-mini",
-            "gpt-4o",
-        ]
-        llama_models = [
-            "llama2",
-            "llama3.1",
-            "codellama",
-            "deepseek-coder-v2:16b",
-            "starcoder2:7b",
-            "llama3.2",
-            "qwen2.5:14b",
-            "gemma2:9b-instruct-q5_K_M",
-            "hf.co/speakleash/Bielik-11B-v2.2-Instruct-GGUF-IQ-Imatrix:Q5_K_M",
-            "codestral:22b-v0.1-q4_K_M",
-        ]
 
-        if model_name in openai_models:
-            return OpenAIHandler(
-                model_name=model_name,
-                system_prompt=system_prompt,
-                max_retries=max_retries,
-                initial_retry_delay=initial_retry_delay,
-            )
-        elif model_name in llama_models:
-            return LlamaHandler(
-                model_name=model_name,
-                system_prompt=system_prompt,
-                max_retries=max_retries,
-                initial_retry_delay=initial_retry_delay,
-            )
-        else:
-            raise ValueError(f"Unsupported model: {model_name}")
+        try:
+            if any(model_name == model.value for model in OpenAIModels):
+                return OpenAIHandler(
+                    model_name=model_name,
+                    system_prompt=system_prompt,
+                    max_retries=max_retries,
+                    initial_retry_delay=initial_retry_delay,
+                )
+            elif any(model_name == model.value for model in LlamaModels):
+                return LlamaHandler(
+                    model_name=model_name,
+                    system_prompt=system_prompt,
+                    max_retries=max_retries,
+                    initial_retry_delay=initial_retry_delay,
+                )
+            else:
+                raise ValueError(f"Unsupported model: {model_name}")
+        except ValueError as e:
+            raise ValueError(f"Invalid model name: {str(e)}")
 
 
 def main():
@@ -59,12 +44,14 @@ def main():
     try:
         # Create handler for OpenAI model
         openai_handler = ModelHandlerFactory.create_handler(
-            model_name="gpt-3.5-turbo", system_prompt="You are a helpful AI assistant."
+            model_name=OpenAIModels.GPT_35_TURBO.value,
+            system_prompt="You are a helpful AI assistant.",
         )
 
         # Create handler for Llama model
         llama_handler = ModelHandlerFactory.create_handler(
-            model_name="llama3.1", system_prompt="You are a helpful AI assistant."
+            model_name=LlamaModels.LLAMA3_1.value,
+            system_prompt="You are a helpful AI assistant.",
         )
 
         # Use handlers

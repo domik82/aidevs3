@@ -1,6 +1,7 @@
 import os
 from loguru import logger
 from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
+from src.common_llm.llm_enums import OpenAIModels
 
 
 def main():
@@ -8,8 +9,8 @@ def main():
     try:
         # Create handler for OpenAI model
         vision_handler = VisionModelHandlerFactory.create_handler(
-            # model_name="gpt-4o-mini",
-            model_name="gpt-4o",
+            # model_name=OpenAIModels.GPT_4o_MINI.value,
+            model_name=OpenAIModels.GPT_4o.value,
             system_prompt="You are an expert in image analysis. With specialization on maps analysis",
         )
         # Get paths

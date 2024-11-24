@@ -5,6 +5,7 @@ from icecream import ic
 from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
+from src.common_llm.llm_enums import OpenAIModels
 from tasks.S02E01.find_answer import ProcessData
 from src.tools.files_merger import merge_files
 
@@ -58,7 +59,9 @@ def main():
         ic(f"Successfully merged files into {output_file}")
 
         data_processor = ProcessData(
-            datafile_path=output_file, system_prompt=system_prompt, model_name="gpt-4o"
+            datafile_path=output_file,
+            system_prompt=system_prompt,
+            model_name=OpenAIModels.GPT_4o.value,
         )
 
         result = data_processor.process_data(

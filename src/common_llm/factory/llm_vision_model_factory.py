@@ -6,6 +6,7 @@ from loguru import logger
 from src.common_llm.handlers.vision.base_vision_model_handler import VisionModelHandler
 from src.common_llm.handlers.vision.llm_vision_ollama_handler import VisionOllamaHandler
 from src.common_llm.handlers.vision.llm_vision_openAI_handler import VisionOpenAIHandler
+from src.common_llm.llm_enums import LlamaVisionModels, OpenAIVisionModels
 from src.tools.find_project_root import find_project_root
 
 
@@ -20,34 +21,25 @@ class VisionModelHandlerFactory:
         """
         Factory method to create appropriate model handler based on model name.
         """
-        openai_models = [
-            "gpt-4o-mini",
-            "gpt-4o",
-        ]
-        ollama_models = [
-            "llava",
-            "bakllava",
-            "minicpm-v:8b-2.6-q5_K_M",
-            "llava:13b",
-            "llava:34b",
-        ]
-
-        if model_name in openai_models:
-            return VisionOpenAIHandler(
-                model_name=model_name,
-                system_prompt=system_prompt,
-                max_retries=max_retries,
-                initial_retry_delay=initial_retry_delay,
-            )
-        elif model_name in ollama_models:
-            return VisionOllamaHandler(
-                model_name=model_name,
-                system_prompt=system_prompt,
-                max_retries=max_retries,
-                initial_retry_delay=initial_retry_delay,
-            )
-        else:
-            raise ValueError(f"Unsupported model: {model_name}")
+        try:
+            if any(model_name == model.value for model in OpenAIVisionModels):
+                return VisionOpenAIHandler(
+                    model_name=model_name,
+                    system_prompt=system_prompt,
+                    max_retries=max_retries,
+                    initial_retry_delay=initial_retry_delay,
+                )
+            elif any(model_name == model.value for model in LlamaVisionModels):
+                return VisionOllamaHandler(
+                    model_name=model_name,
+                    system_prompt=system_prompt,
+                    max_retries=max_retries,
+                    initial_retry_delay=initial_retry_delay,
+                )
+            else:
+                raise ValueError(f"Unsupported model: {model_name}")
+        except ValueError as e:
+            raise ValueError(f"Invalid model name: {str(e)}")
 
 
 def simple_sample_openai():
@@ -68,7 +60,7 @@ def simple_sample_openai():
 
         # Create handler for OpenAI model
         vision_handler = VisionModelHandlerFactory.create_handler(
-            model_name="gpt-4o-mini",
+            model_name=OpenAIVisionModels.GPT_4O_MINI.value,
             system_prompt="You are an expert in image analysis.",
         )
         logger.info(f"Analyzing image: {sample_path}")
@@ -105,9 +97,9 @@ def simple_sample_ollama():
 
         # Create handler for OpenAI model
         vision_handler = VisionModelHandlerFactory.create_handler(
-            model_name="llava:13b",
-            # model_name="llava:34b",
-            # model_name="minicpm-v:8b-2.6-q5_K_M",
+            # model_name=LlamaVisionModels.LLAVA_13B.value,
+            model_name=LlamaVisionModels.LLAVA_34B.value,
+            # model_name=LlamaVisionModels.MINICPM.value,
             system_prompt="You are an expert in image analysis.",
         )
         logger.info(f"Analyzing image: {sample_path}")
@@ -127,7 +119,7 @@ def simple_sample_ollama():
 
 
 def main():
-    simple_sample_openai()
+    # simple_sample_openai()
     simple_sample_ollama()
 
 
