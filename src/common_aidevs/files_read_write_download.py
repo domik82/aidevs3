@@ -5,6 +5,7 @@ from requests.exceptions import RequestException
 import os
 from urllib.parse import urlparse
 from typing import Optional, Union
+from pathlib import Path
 
 
 def get_data_from_url(url: str, retries: int = 3, timeout: int = 5) -> Response.content:
@@ -97,6 +98,19 @@ def build_filename(filename: str, prefix: str = "", suffix: str = "") -> str:
     return "_".join(parts)
 
 
+def delete_file_pathlib(file_path):
+    try:
+        path = Path(file_path)
+        path.unlink()
+        print(f"File '{file_path}' has been deleted successfully")
+    except FileNotFoundError:
+        print(f"File '{file_path}' not found")
+    except PermissionError:
+        print(f"Permission denied to delete '{file_path}'")
+    except Exception as e:
+        print(f"Error occurred while deleting the file: {e}")
+
+
 if __name__ == "__main__":
     dl_url: str = "https://poligon.aidevs.pl/dane.txt"
     response = get_data_from_url(dl_url)
@@ -106,3 +120,6 @@ if __name__ == "__main__":
     if success:
         data: bytes = read_file(get_filename_from_url(dl_url))
         ic(f"Downloaded and read file content: {data[:100]}...")
+
+    file_to_delete = "dane.txt"
+    delete_file_pathlib(file_to_delete)  # or delete_file_os(file_to_delete)

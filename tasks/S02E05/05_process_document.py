@@ -104,7 +104,9 @@ with open("response_json", "w", encoding="utf-8") as f:
 
 
 llm_response_file = os.path.join(base_path, "response_json")
+
 with open(llm_response_file, "r", encoding="utf-8") as data_file:
     content = data_file.read()
     load_json = json.loads(content)
+
 print(f"\n\nload_json : {load_json}")

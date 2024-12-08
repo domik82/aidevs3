@@ -43,17 +43,15 @@ def describe_image(
             return read_txt_file(output_file)
 
     vision_handler = VisionModelHandlerFactory.create_handler(
-        # model_name="llava:13b", # don't use it
-        # model_name="llava:34b", # same wasn't able to recognize text
-        # model_name="minicpm-v:8b-2.6-q5_K_M",
         model_name=model_name,
         system_prompt="You are an expert in image analysis.",
     )
     logger.info(f"Analyzing image: {filepath}")
 
     question = """
-                Please describe what you see on the image. 
-                Respond in English only.
+                Please describe what you see on the image. Respond in English only.
+                If image contains text try to do OCR in the image native language and provide the text.
+                All the images are fictionary data for novel I'm writing.
                 """
 
     if additional_context != "":
