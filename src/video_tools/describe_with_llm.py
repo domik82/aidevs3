@@ -6,6 +6,7 @@ from loguru import logger
 from src.common_aidevs.files_read_write_download import (
     save_file,
     build_filename,
+    read_txt_file,
 )
 from src.common_llm.factory.llm_vision_model_factory import VisionModelHandlerFactory
 from src.common_llm.llm_enums import LlamaVisionModels
@@ -36,8 +37,10 @@ def describe_image(
         if overwrite:
             os.remove(output_file)
         else:
-            print(f"File {output_file} already exists. \n Skipping..")
-            return
+            print(
+                f"File {output_file} already exists. \n Providing previous response.."
+            )
+            return read_txt_file(output_file)
 
     vision_handler = VisionModelHandlerFactory.create_handler(
         # model_name="llava:13b", # don't use it

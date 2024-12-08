@@ -13,6 +13,7 @@ class ModelHandlerFactory:
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
+        temperature: float = 0.7,
     ) -> BaseModelHandler:
         """
         Factory method to create appropriate model handler based on model name.
@@ -25,6 +26,7 @@ class ModelHandlerFactory:
                     system_prompt=system_prompt,
                     max_retries=max_retries,
                     initial_retry_delay=initial_retry_delay,
+                    temperature=temperature,
                 )
             elif any(model_name == model.value for model in LlamaModels):
                 return LlamaHandler(
@@ -32,6 +34,7 @@ class ModelHandlerFactory:
                     system_prompt=system_prompt,
                     max_retries=max_retries,
                     initial_retry_delay=initial_retry_delay,
+                    temperature=temperature,
                 )
             else:
                 raise ValueError(f"Unsupported model: {model_name}")

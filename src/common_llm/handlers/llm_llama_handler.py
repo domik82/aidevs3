@@ -14,12 +14,13 @@ class LlamaHandler(BaseModelHandler):
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
+        temperature: float = 0.7,
     ):
         self.model = model_name
         self.max_retries = max_retries
         self.initial_retry_delay = initial_retry_delay
         self.conversation_history = []
-
+        self.temperature = temperature
         if system_prompt:
             self.set_system_prompt(system_prompt)
 
@@ -34,7 +35,11 @@ class LlamaHandler(BaseModelHandler):
 
         for attempt in range(self.max_retries):
             try:
-                response = ollama.chat(model=self.model, messages=messages)
+                response = ollama.chat(
+                    model=self.model,
+                    messages=messages,
+                    options={"temperature": self.temperature},
+                )
                 return response["message"]["content"].strip()
             except ollama.ResponseError as e:
                 logger.error(

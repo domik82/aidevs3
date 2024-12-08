@@ -19,6 +19,7 @@ class OpenAIHandler(BaseModelHandler):
         system_prompt: Optional[str] = None,
         max_retries: int = 3,
         initial_retry_delay: float = 1.0,
+        temperature: float = 0.7,
     ):
         # Get API key from environment variable
         api_key = os.getenv("OPENAI_API_KEY")
@@ -30,7 +31,7 @@ class OpenAIHandler(BaseModelHandler):
         self.max_retries = max_retries
         self.initial_retry_delay = initial_retry_delay
         self.conversation_history = []
-
+        self.temperature = temperature
         if system_prompt:
             self.set_system_prompt(system_prompt)
 
@@ -46,7 +47,7 @@ class OpenAIHandler(BaseModelHandler):
         for attempt in range(self.max_retries):
             try:
                 response = self.client.chat.completions.create(
-                    model=self.model, messages=messages, temperature=0.7
+                    model=self.model, messages=messages, temperature=self.temperature
                 )
                 return response.choices[0].message.content.strip()
             except Exception as e:

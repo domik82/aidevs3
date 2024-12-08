@@ -1,4 +1,3 @@
-import json
 import os
 
 from dotenv import load_dotenv
@@ -6,7 +5,8 @@ from icecream import ic
 from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
-
+from tasks.S03E05.grab_data import display_path
+from tasks.S03E05.people_manager import PeopleManager, ObjectsType
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
@@ -15,15 +15,11 @@ AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 
 def main():
     try:
-        task_name = "dokumenty"
-        result_file_name = "final_result_file_llm.json"
-        base_path = os.getcwd()
-        result_file = os.path.join(base_path, result_file_name)
+        task_name = "connections"
 
-        with open(result_file, "r", encoding="utf-8") as data_file:
-            file_contents = data_file.read()
-
-        result = json.loads(file_contents)
+        graph_manager = PeopleManager()
+        path = graph_manager.find_shortest_path("Rafał", "Barbara", ObjectsType.PERSON)
+        result = display_path(path)
 
         handler = TaskHandler(AI_DEVS_CENTRALA_ADDRESS, AI_DEVS_CENTRALA_TOKEN)
         answer_response = handler.post_answer(task_name, result)

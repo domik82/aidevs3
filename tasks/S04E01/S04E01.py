@@ -1,4 +1,3 @@
-import json
 import os
 
 from dotenv import load_dotenv
@@ -6,7 +5,7 @@ from icecream import ic
 from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
-
+from src.common_aidevs.files_read_write_download import read_txt_file
 
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
@@ -15,15 +14,9 @@ AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
 
 def main():
     try:
-        task_name = "dokumenty"
-        result_file_name = "final_result_file_llm.json"
+        task_name = "photos"
         base_path = os.getcwd()
-        result_file = os.path.join(base_path, result_file_name)
-
-        with open(result_file, "r", encoding="utf-8") as data_file:
-            file_contents = data_file.read()
-
-        result = json.loads(file_contents)
+        result = read_txt_file(os.path.join(base_path, "barbara_description.txt"))
 
         handler = TaskHandler(AI_DEVS_CENTRALA_ADDRESS, AI_DEVS_CENTRALA_TOKEN)
         answer_response = handler.post_answer(task_name, result)

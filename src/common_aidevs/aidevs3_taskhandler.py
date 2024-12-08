@@ -44,3 +44,22 @@ class TaskHandler:
                 )
         else:
             raise RuntimeError("Base url or user token doesn't exist")
+
+    def check_city(self, city):
+        response = self._interface("places", city)
+        return response
+
+    def check_name(self, name):
+        response = self._interface("people", name)
+        return response
+
+    def _interface(self, interface_type, query_value):
+        payload = {"apikey": self.user_api_key, "query": query_value}
+        response = requests.post(f"{self.base_url}/{interface_type}", json=payload)
+        if response.status_code == 200:
+            self.log.info(f"post_answer response: {response.json()}")
+            return ResponseBaseHandler(response.json())
+        else:
+            raise Exception(
+                f"Failed to post answer. Status code: {response.status_code}, body: {response.json()}"
+            )

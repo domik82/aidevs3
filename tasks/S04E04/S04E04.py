@@ -1,4 +1,3 @@
-import json
 import os
 
 from dotenv import load_dotenv
@@ -7,23 +6,17 @@ from loguru import logger
 
 from src.common_aidevs.aidevs3_taskhandler import TaskHandler
 
-
 load_dotenv()
 AI_DEVS_CENTRALA_ADDRESS = os.getenv("AI_DEVS_CENTRALA_ADDRESS")
 AI_DEVS_CENTRALA_TOKEN = os.getenv("AI_DEVS_CENTRALA_TOKEN")
+AI_DEVS_AZYL_ADDRESS = os.getenv("AI_DEVS_AZYL_ADDRESS")
 
 
 def main():
     try:
-        task_name = "dokumenty"
-        result_file_name = "final_result_file_llm.json"
-        base_path = os.getcwd()
-        result_file = os.path.join(base_path, result_file_name)
+        task_name = "webhook"
 
-        with open(result_file, "r", encoding="utf-8") as data_file:
-            file_contents = data_file.read()
-
-        result = json.loads(file_contents)
+        result = f"https://{AI_DEVS_AZYL_ADDRESS}/drone_location"
 
         handler = TaskHandler(AI_DEVS_CENTRALA_ADDRESS, AI_DEVS_CENTRALA_TOKEN)
         answer_response = handler.post_answer(task_name, result)
@@ -38,3 +31,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Jeśli masz aktywne konto na Azylu,
+# możesz też użyć SSH do przekierowania swojego lokalnego portu (na przykładzie = 3000)
+# na swój port na Azylu (na przykladzie = 50005).
+# Robi się to komendą wydaną na lokalnym komputerze w ten sposób:
+# ssh -R 50005:localhost:3000 agent10005@azyl.ag3nts.org -p 5022
+
+# or use putty plink
+# plink -ssh -R 50005:localhost:3000 -P 5022 -l agent10005 -pw passs azyl......org

@@ -41,7 +41,7 @@ def download_file(
     while attempt < retries:
         try:
             ic(f"Downloading attempt: {attempt}")
-            response = requests.get(url, timeout=timeout)
+            response: requests.Response = requests.get(url, timeout=timeout)
             ic(f"Downloading status_code: {response.status_code}")
             response.raise_for_status()  # Raise an error for bad responses
             ic(f"Will save to: {file_path}")
@@ -74,8 +74,7 @@ def get_filename_from_url(url: str) -> str:
 
 def read_txt_file(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
-        data = f.read()  # reads entire file into a single string
-    return data
+        return f.read()  # reads entire file into a single string
 
 
 def build_filename(filename: str, prefix: str = "", suffix: str = "") -> str:
