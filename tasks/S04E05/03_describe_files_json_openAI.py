@@ -116,3 +116,56 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+"""
+When analysing a text with OCR, proceed as follows: 
+
+1. GEOGRAPHICAL-HISTORICAL CONTEXT 
+
+- For each proper name (place, person, institution) check its surroundings in the text 
+
+- Look for other mentions of the same name or related places/people throughout the document 
+
+- Take into account the historical and geographical realities of the period/region described 
+
+2. OCR ERROR ANALYSIS 
+
+- Look out for common OCR mistakes:  
+
+Similar looking letters: w/n, m/rn, l/i, O/0  
+
+Accidental spaces in the middle of words  
+
+Incorrect hyphenation or splitting of words  
+
+Incorrect Polish diacritics 
+
+- Look for inconsistencies in the spelling of the same name in different places in the text 
+
+3. THINK AND VERIFY - For each suspected proper name:  
+
+Make a list of possible variants taking into account typical OCR errors  
+
+Check their sense in the context of the document  
+
+Verify that the corrected version fits with: 
+
+- The geography of the region described 
+
+- Historical period 
+
+- Other elements of the narrative Evaluate the probability of each interpretation 
+
+4. EXAMPLE OF REASONING PROCESS
+
+ ‘Found {name} in the area of {larger_city}’. 
+
+- Does the name occur elsewhere in the text? 
+
+- What real places/persons in the {larger_city} area have similar names? 
+
+- Which letters could have been misread? 
+
+- Which interpretation best fits the document as a whole?
+"""
