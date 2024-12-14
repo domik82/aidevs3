@@ -7,7 +7,7 @@ from src.common_llm.llm_enums import OpenAIModels
 from src.tools.json_extractor_from_llm_response import (
     extract_json_from_wrapped_response,
 )
-from mardown_crawlee_simplified import SpecializedWebCrawler
+from tasks.S04E03.b_mardown_crawlee_simplified import SpecializedWebCrawler
 
 
 def response_to_question(current_link, context, question, visited_links):
